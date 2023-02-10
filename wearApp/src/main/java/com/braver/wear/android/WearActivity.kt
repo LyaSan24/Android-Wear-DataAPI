@@ -6,8 +6,11 @@
 package com.braver.wear.android
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import com.braver.wear.android.databinding.ActivityWearBinding
 import com.google.android.gms.common.ConnectionResult
@@ -23,6 +26,18 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
     private val TAG: String = "###Braver_Wear_Side"
     private lateinit var mainBinding: ActivityWearBinding
     private var mGoogleApiClient: GoogleApiClient? = null
+
+    var date = Date()
+    var cal: Calendar = Calendar.getInstance()
+
+    var hours = cal[Calendar.HOUR_OF_DAY]
+    var minutes = cal[Calendar.MINUTE]
+    val secs = cal[Calendar.SECOND]
+    val ms = cal[Calendar.MILLISECOND]
+
+    var dayNumber = DateFormat.format("dd", date) as String // 20
+    var monthNumber = DateFormat.format("MM", date) as String // 06
+    var year = DateFormat.format("yyyy", date) as String // 2013
 
     companion object {
         const val PATH_FOR_WEAR = "/path_for_wear"
@@ -90,7 +105,7 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         Log.i(TAG, "----hasConnectedApi------->$wearAvailable")
         val dataMapRequest = PutDataMapRequest.create(PATH_FOR_MOBILE)
         val map = dataMapRequest.dataMap
-        map.putString(EXTRA_MESSAGE_FROM_WEAR, getRandomString())
+        map.putString(EXTRA_MESSAGE_FROM_WEAR, getTimestampedDate() + "/" + getVolume(this)+ "/" + LocationCollect().getCoordinatesTranslated(this))
         map.putLong(EXTRA_CURRENT_TIME, Date().time)
         val putDataRequest = dataMapRequest.asPutDataRequest()
         putDataRequest.setUrgent()
@@ -116,5 +131,50 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         for (i in 0 until 15)
             sb.append(ALLOWED_CHARACTERS[random.nextInt(ALLOWED_CHARACTERS.length)])
         return sb.toString()
+    }
+
+    fun getDate(): String {
+        return "$dayNumber/$monthNumber/$year"
+    }
+
+    //Get time (22:00:03)
+    private fun getTime(): String {
+        val tHour: String = if (hours < 10) {
+            "0$hours"
+        } else {
+            hours.toString()
+        }
+        val tMin: String = if (minutes < 10) {
+            "0$minutes"
+        } else {
+            minutes.toString()
+        }
+        val tSecs: String = if (secs < 10) {
+            "0$secs"
+        } else {
+            secs.toString()
+        }
+        val tMs: String = if (ms < 100) {
+            if (ms < 10) {
+                "00$ms"
+            } else {
+                "0$ms"
+            }
+        } else {
+            ms.toString()
+        }
+        return "$tHour:$tMin:$tSecs" // + "." + tMs <-- to add mS
+    }
+
+    fun getTimestampedDate(): String {
+        val date = "$dayNumber-$monthNumber-$year"
+        val time = getTime()
+        return "$date $time"
+    }
+
+    fun getVolume(context: Context?): String {
+        val am = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        return currentVolume.toString()
     }
 }
