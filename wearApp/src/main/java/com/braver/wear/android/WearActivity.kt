@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.os.Bundle
+import android.os.Handler
 import android.text.format.DateFormat
 import android.util.Log
 import com.braver.wear.android.databinding.ActivityWearBinding
@@ -55,13 +56,7 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         mainBinding = ActivityWearBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
         mainBinding.sendDataButton.setOnClickListener { v ->
-            val timer = Timer(false)
-            val timerTask: TimerTask = object : TimerTask() {
-                override fun run() {
-                    sendRandomMessageToMobileApp()
-                }
-            }
-            timer.scheduleAtFixedRate(timerTask, 0, 10000)
+            sendRandomMessageToMobileApp()
         }
     }
 

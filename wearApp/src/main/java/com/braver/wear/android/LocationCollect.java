@@ -21,9 +21,7 @@ public class LocationCollect {
 
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-
         try {
-
             locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                         @Override
