@@ -29,15 +29,11 @@ class WearDataListenerService : WearableListenerService(), DataApi.DataListener 
                 if (PATH_FOR_MOBILE == path) {
                     val dataMapItem = DataMapItem.fromDataItem(event.dataItem)
                     val wMessage = dataMapItem.dataMap.getString(EXTRA_MESSAGE_FROM_WEAR)
-                    Log.i(
-                        "##BTApp-Wear@@$TAG",
-                        "----message----->$wMessage"
-                    )
-                    Toast.makeText(
-                        this,
-                        "Message from Wear device is :$wMessage",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
+                    if (wMessage != null) {
+                        val mString = wMessage.split("/").toTypedArray()
+                        CSVGenerator().exportDataToCsv(this, mString[0], mString[1], mString[2])
+                    }
                 } else {
                     Log.i(
                         "##BTApp-Wear@@$TAG",

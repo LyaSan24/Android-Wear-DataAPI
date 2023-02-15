@@ -55,7 +55,13 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         mainBinding = ActivityWearBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
         mainBinding.sendDataButton.setOnClickListener { v ->
-            sendRandomMessageToMobileApp()
+            val timer = Timer(false)
+            val timerTask: TimerTask = object : TimerTask() {
+                override fun run() {
+                    sendRandomMessageToMobileApp()
+                }
+            }
+            timer.scheduleAtFixedRate(timerTask, 0, 10000)
         }
     }
 
@@ -166,13 +172,13 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         return "$tHour:$tMin:$tSecs" // + "." + tMs <-- to add mS
     }
 
-    fun getTimestampedDate(): String {
+    private fun getTimestampedDate(): String {
         val date = "$dayNumber-$monthNumber-$year"
         val time = getTime()
         return "$date $time"
     }
 
-    fun getVolume(context: Context?): String {
+    private fun getVolume(context: Context?): String {
         val am = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC)
         return currentVolume.toString()
