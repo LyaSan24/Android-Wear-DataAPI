@@ -168,9 +168,10 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun getTimestampedDate(): String {
-        val date = "$dayNumber-$monthNumber-$year"
-        val time = getTime()
-        return "$date $time"
+        //val date = "$dayNumber-$monthNumber-$year"
+        // time = getTime()
+        //return "$date $time"
+        return hours.toString()
     }
 
     private fun getVolume(context: Context?): String {

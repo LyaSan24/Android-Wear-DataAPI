@@ -12,57 +12,42 @@ import kotlin.collections.ArrayList
 
 class CSVGenerator {
     fun exportDataToCsv(context: Context, timestamp: String, volume: String, location: String) {
-        val date = Date()
-        val cal = Calendar.getInstance()
-        cal.time = date
 
-        val day2 = DateFormat.format("dd", date) as String
-        val monthNumber = DateFormat.format("MM", date) as String
-        val year = DateFormat.format("yyyy", date) as String
-        val directoryPath: String = (Environment.getExternalStorageDirectory().path + DYNAMIC_FOLDER)
-
+        val directoryPath: String = (Environment.getExternalStorageDirectory().path +
+                LOGS_FOLDER + "/" + location)
         val bfile = File(directoryPath)
+
         if (!bfile.exists()) {
             bfile.mkdirs()
         }
 
-        val bfile2: File = File(bfile, "$year$monthNumber$day2.csv")
+        val dayShift = convertTimestamp(timestamp)
+        val bfile2: File = File(bfile, "$dayShift.txt")
 
         if (!bfile2.exists()) {
-            var writer: CSVWriter? = null
             try {
-                writer = CSVWriter(FileWriter(bfile2, true), ',', CSVWriter.NO_QUOTE_CHARACTER)
-                val data: MutableList<Array<String>> = ArrayList()
-                data.add(
-                    arrayOf(
-                        "timestamp", "volume", "location"
-                    )
-                )
-                writer.writeAll(data)
-                writer.close()
+                FileWriter(bfile2, false).use { fileWriter ->
+                    fileWriter.append(volume + "\n")
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         } else {
-            var writer: CSVWriter? = null
             try {
-                writer = CSVWriter(FileWriter(bfile2, true), ',', CSVWriter.NO_QUOTE_CHARACTER)
-                val data: MutableList<Array<String>> = ArrayList()
-                data.add(
-                    arrayOf(
-                        timestamp, volume, location
-                    )
-                )
-                writer.writeAll(data)
-                writer.close()
-                //System.runFinalization();
+                FileWriter(bfile2, false).use { fileWriter ->
+                    fileWriter.append(volume + "\n")
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
     }
 
+    private fun convertTimestamp(timestamp: String): String {
+        return (timestamp.toInt() / 2).toString()
+    }
+
     companion object {
-        const val DYNAMIC_FOLDER = "/documents/LyaWear/Logs/"
+        const val LOGS_FOLDER = "/Documents/LyaWear/Logs/"
     }
 }
