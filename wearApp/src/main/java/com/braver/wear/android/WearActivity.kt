@@ -55,8 +55,8 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         super.onCreate(savedInstanceState)
         mainBinding = ActivityWearBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-        mainBinding.sendDataButton.setOnClickListener { v ->
-            sendRandomMessageToMobileApp()
+        mainBinding.sendDataButton.setOnClickListener {
+            startService(Intent(this, WearSenderService::class.java))
         }
     }
 

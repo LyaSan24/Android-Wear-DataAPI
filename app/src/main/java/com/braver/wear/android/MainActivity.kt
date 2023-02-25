@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         mainBinding.sendDataButton.setOnClickListener { v ->
             sendDataToWearApp()
         }
+
+        startService(Intent(this, AutomaticVerificationService::class.java))
     }
 
     override fun onStart() {

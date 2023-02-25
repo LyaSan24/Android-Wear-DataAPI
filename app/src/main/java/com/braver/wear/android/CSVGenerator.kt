@@ -15,22 +15,19 @@ class CSVGenerator {
         val longitude = mString[1].toDouble()
         var locationName = location
 
-        val folder = File(context.filesDir, "/Documents/")
+        val folder = File(context.filesDir, LOGS_FOLDER)
         if (folder.isDirectory) {
             val folders = folder.listFiles { file -> file.isDirectory }
             folders?.forEach {
-                val folderLocationName = location.split(";").toTypedArray()
-                val folderLatitude = mString[0].toDouble()
-                val folderLongitude = mString[1].toDouble()
+                val folderLocationName = it.name.split(";").toTypedArray()
+                val folderLatitude = folderLocationName[0].toDouble()
+                val folderLongitude = folderLocationName[1].toDouble()
 
-                //0.0005
                 if (latitude - folderLatitude < 0.0005 && latitude - folderLatitude > -0.0005) {
                     if (longitude - folderLongitude < 0.0005 && longitude - folderLongitude > -0.0005) {
                         locationName = it.name
                     }
                 }
-
-                println(it.name)
             }
         }
 
@@ -49,14 +46,16 @@ class CSVGenerator {
             try {
                 FileWriter(bfile2, false).use { fileWriter ->
                     fileWriter.append(volume + "\n")
+                    LyaWearStatistics().createStatisticalData(bfile, bfile2)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         } else {
             try {
-                FileWriter(bfile2, false).use { fileWriter ->
+                FileWriter(bfile2, true).use { fileWriter ->
                     fileWriter.append(volume + "\n")
+                    LyaWearStatistics().createStatisticalData(bfile, bfile2)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
