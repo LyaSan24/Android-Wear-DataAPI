@@ -47,6 +47,7 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         const val EXTRA_USER_NAME = "extra_user_name"
         const val EXTRA_USER_EMAIL = "extra_user_email"
         const val EXTRA_USER_PHONE = "extra_user_phone"
+        const val EXTRA_METRIC_VOLUME = "extra_metric_volume"
         const val EXTRA_MESSAGE_FROM_WEAR = "extra_message_from_wear"
         private const val ALLOWED_CHARACTERS = "0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
     }

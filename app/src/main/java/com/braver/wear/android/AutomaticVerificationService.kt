@@ -139,6 +139,7 @@ class AutomaticVerificationService : Service() {
         if (finalSum != Values.CURRENT_VOLUME.toInt()) {
             if (lines >= Values.COLLECT_PARAM) {
                 //Notifica a alteração para o smartwatch
+                MainActivity().sendMetricVolumeToWearApp(finalSum.toString())
             }
         }
     }

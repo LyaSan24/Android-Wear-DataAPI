@@ -5,11 +5,11 @@
 
 package com.braver.wear.android
 
+import android.content.Context
+import android.media.AudioManager
 import android.util.Log
 import android.widget.Toast
-import com.braver.wear.android.WearActivity.Companion.EXTRA_USER_EMAIL
-import com.braver.wear.android.WearActivity.Companion.EXTRA_USER_NAME
-import com.braver.wear.android.WearActivity.Companion.EXTRA_USER_PHONE
+import com.braver.wear.android.WearActivity.Companion.EXTRA_METRIC_VOLUME
 import com.braver.wear.android.WearActivity.Companion.PATH_FOR_WEAR
 import com.google.android.gms.common.data.FreezableUtils
 import com.google.android.gms.wearable.*
@@ -30,18 +30,13 @@ class MobileDataListenerService : WearableListenerService(), DataApi.DataListene
                 val path = event.dataItem.uri.path
                 if (PATH_FOR_WEAR == path) {
                     val dataMapItem = DataMapItem.fromDataItem(event.dataItem)
-                    val mUserName = dataMapItem.dataMap.getString(EXTRA_USER_NAME)
-                    val mUserEmail = dataMapItem.dataMap.getString(EXTRA_USER_EMAIL)
-                    val mUserPhone = dataMapItem.dataMap.getString(EXTRA_USER_PHONE)
-                    Log.i(
-                        "##BTApp-Wear@@$TAG",
-                        "----UserName--->$mUserName-----UserEmail--->$mUserEmail---UserPhone--->$mUserPhone"
-                    )
-                    Toast.makeText(
-                        this,
-                        "UserName from mobile device is :$mUserName",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val mVolumeMetric = dataMapItem.dataMap.getString(EXTRA_METRIC_VOLUME)
+                    val volumeInt = mVolumeMetric?.toIntOrNull()
+                    if (mVolumeMetric != null && volumeInt != null) {
+                        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volumeInt, 0)
+                    }
+
                 } else {
                     Log.i(
                         "##BTApp-Wear@@$TAG",

@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         const val EXTRA_USER_NAME = "extra_user_name"
         const val EXTRA_USER_EMAIL = "extra_user_email"
         const val EXTRA_USER_PHONE = "extra_user_phone"
+        const val EXTRA_METRIC_VOLUME = "extra_metric_volume"
         const val EXTRA_MESSAGE_FROM_WEAR = "extra_message_from_wear"
     }
 
@@ -84,6 +85,24 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onConnectionSuspended(p0: Int) {
         Log.e(TAG, "----Status------->ConnectionSuspended")
         retryConnecting()
+    }
+
+    fun sendMetricVolumeToWearApp(volume: String) {
+        val wearAvailable = mGoogleApiClient!!.hasConnectedApi(Wearable.API)
+        Log.i(TAG, "----hasConnectedApi------->$wearAvailable")
+        val dataMapRequest = PutDataMapRequest.create(PATH_FOR_WEAR)
+        val map = dataMapRequest.dataMap
+        map.putString(EXTRA_METRIC_VOLUME, volume)
+        val putDataRequest = dataMapRequest.asPutDataRequest()
+        putDataRequest.setUrgent()
+        Wearable.DataApi.putDataItem(mGoogleApiClient!!, putDataRequest)
+            .setResultCallback { dataItemResult: DataItemResult ->
+                if (dataItemResult.status.isSuccess) {
+                    Log.i(TAG, "----sendDataToWearApp------->Successfully!!")
+                } else {
+                    Log.i(TAG, "----sendDataToWearApp------->Failed!!")
+                }
+            }
     }
 
     private fun sendDataToWearApp() {
