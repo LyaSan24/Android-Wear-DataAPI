@@ -2,19 +2,40 @@ package com.braver.wear.android
 
 import android.content.Context
 import android.os.Environment
-import android.text.format.DateFormat
-import com.opencsv.CSVWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CSVGenerator {
     fun exportDataToCsv(context: Context, timestamp: String, volume: String, location: String) {
 
+        val mString = location.split(";").toTypedArray()
+        val latitude = mString[0].toDouble()
+        val longitude = mString[1].toDouble()
+        var locationName = location
+
+        val folder = File(context.filesDir, "/Documents/")
+        if (folder.isDirectory) {
+            val folders = folder.listFiles { file -> file.isDirectory }
+            folders?.forEach {
+                val folderLocationName = location.split(";").toTypedArray()
+                val folderLatitude = mString[0].toDouble()
+                val folderLongitude = mString[1].toDouble()
+
+                //0.0005
+                if (latitude - folderLatitude < 0.0005 && latitude - folderLatitude > -0.0005) {
+                    if (longitude - folderLongitude < 0.0005 && longitude - folderLongitude > -0.0005) {
+                        locationName = it.name
+                    }
+                }
+
+                println(it.name)
+            }
+        }
+
         val directoryPath: String = (Environment.getExternalStorageDirectory().path +
-                LOGS_FOLDER + "/" + location)
+                LOGS_FOLDER + "/" + locationName)
         val bfile = File(directoryPath)
 
         if (!bfile.exists()) {

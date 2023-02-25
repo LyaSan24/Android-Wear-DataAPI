@@ -101,7 +101,7 @@ class WearActivity : Activity(), GoogleApiClient.ConnectionCallbacks,
         retryConnecting()
     }
 
-    private fun sendRandomMessageToMobileApp() {
+    fun sendRandomMessageToMobileApp() {
         val wearAvailable = mGoogleApiClient!!.hasConnectedApi(Wearable.API)
         Log.i(TAG, "----hasConnectedApi------->$wearAvailable")
         val dataMapRequest = PutDataMapRequest.create(PATH_FOR_MOBILE)
