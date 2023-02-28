@@ -8,7 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.android.gms.common.api.GoogleApiClient
@@ -38,14 +40,22 @@ class WearSenderService : Service() {
         mGoogleApiClient!!.connect()
 
         //Call thread
-        val timer = Timer(false)
-        val timerTask: TimerTask = object : TimerTask() {
-            @RequiresApi(Build.VERSION_CODES.Q)
+        val timer = Timer()
+
+        // Define the TimerTask object
+        val timerTask = object : TimerTask() {
+            val handler = Handler(Looper.getMainLooper())
+
             override fun run() {
-                sendRandomMessageToMobileApp()
+                handler.post {
+                    // Your code that needs to be executed every second
+                    sendRandomMessageToMobileApp()
+                }
             }
         }
-        timer.scheduleAtFixedRate(timerTask, 0, 10000)
+
+        // Schedule the TimerTask to run every second
+        timer.scheduleAtFixedRate(timerTask, 0, 1000)
 
         //Create notification
         val channelId = "Foreground Service ID"
