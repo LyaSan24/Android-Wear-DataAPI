@@ -1,17 +1,19 @@
 # Android-Wear-DataAPI
+#LyaWear
 
-The Sample project describes the connection between the mobile app and the wear app.
+The LyaWear project describes the connection between the mobile app and the wear app.
 
-* Wear App supports from Android N
-* Passing data from the Mobile app to the Wear app using DataAPI and GoogleApiClient
+The purpose of this implementation is to optimize the media volume in context aware, using the location to detect the user's current location and the volume level detected in that context, then after learning it is possible to automatically change the volume to preference in that location.
+
+* Wear App compatible with Android
+* Pass data from mobile app to Wear app using DataAPI and GoogleApiClient
 * Using 'WearableListenerService' retrieve the data from the end
-* 100% kotlin support
+* Kotlin and java support
 
+# Observation
 
-# Note
-
-- Add Google play service dependencies on both build.gradle files
-- The package name for both mobile and wear applications must same
-- Add gsm version code on both manifest files
-- Add hostName, path Prefix, and scheme for the connection on the manifest file
-- Must use the same signatures for both (If any key store files are used in the mobile app to generate apk files, must use the same keystore file for wear app)
+- Add Google Play service dependencies in both build.gradle files
+- Package name for mobile and wear apps must be the same
+- Add gsm version code in both manifest files
+- Add hostName, path prefix and scheme for connection in manifest file
+- Must use same signatures for both (if any keystore file is used in mobile app to generate apk files then must use same keystore file for wear app)
