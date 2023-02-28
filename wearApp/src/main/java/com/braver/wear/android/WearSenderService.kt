@@ -20,10 +20,6 @@ import java.util.*
 class WearSenderService : Service() {
 
     private var mGoogleApiClient: GoogleApiClient? = null
-    private val connectionCallbacks =
-        this as com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
-    private val onConnectionFailed =
-        this as com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
@@ -35,8 +31,8 @@ class WearSenderService : Service() {
         if (mGoogleApiClient == null) {
             mGoogleApiClient = GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
-                .addConnectionCallbacks(connectionCallbacks)
-                .addOnConnectionFailedListener(onConnectionFailed)
+             //   .addConnectionCallbacks(connectionCallbacks)
+              //  .addOnConnectionFailedListener(onConnectionFailed)
                 .build()
         }
         mGoogleApiClient!!.connect()
