@@ -15,7 +15,7 @@ class CSVGenerator {
         val longitude = mString[1].toDouble()
         var locationName = location
 
-        val folder = File(context.filesDir, LOGS_FOLDER)
+        val folder = File(Environment.getExternalStorageDirectory().path + LOGS_FOLDER)
         if (folder.isDirectory) {
             val folders = folder.listFiles { file -> file.isDirectory }
             folders?.forEach {
