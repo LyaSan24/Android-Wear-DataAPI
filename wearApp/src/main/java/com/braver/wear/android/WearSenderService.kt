@@ -55,7 +55,7 @@ class WearSenderService : Service() {
         }
 
         // Schedule the TimerTask to run every second
-        timer.scheduleAtFixedRate(timerTask, 0, 1000)
+        timer.scheduleAtFixedRate(timerTask, 0, 60000)
 
         //Create notification
         val channelId = "Foreground Service ID"
