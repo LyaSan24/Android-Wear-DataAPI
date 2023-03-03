@@ -1,5 +1,5 @@
+/* responsável na análise estatística - métricas*/
 package com.braver.wear.android
-
 import java.io.*
 
 class LyaWearStatistics {

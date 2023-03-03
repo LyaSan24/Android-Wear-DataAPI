@@ -1,3 +1,4 @@
+/* realiza a coleta da localização */
 package com.braver.wear.android;
 
 import android.annotation.SuppressLint;

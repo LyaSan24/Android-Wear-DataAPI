@@ -1,10 +1,4 @@
-/*
- *  Created by https://github.com/braver-tool on 05/05/22, 12:10 PM
- *  Copyright (c) 2022 . All rights reserved.
- */
-
 package com.braver.wear.android
-
 import android.content.Context
 import android.media.AudioManager
 import android.util.Log

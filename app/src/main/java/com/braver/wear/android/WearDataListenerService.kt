@@ -1,6 +1,7 @@
 /*
  *  Created by https://github.com/braver-tool on 05/05/22, 12:10 PM
  *  Copyright (c) 2022 . All rights reserved.
+ *  Modificado por Lya e Elian em 03/2023. All rights reserved.
  */
 
 package com.braver.wear.android

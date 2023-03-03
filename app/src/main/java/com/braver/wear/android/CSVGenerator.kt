@@ -1,3 +1,4 @@
+/* gera os valores em csv / txt */
 package com.braver.wear.android
 
 import android.content.Context
